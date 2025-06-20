@@ -1,50 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="styles.css" />
 
     <title>Projeto</title>
-</head>
+  </head>
 
-<body>
-     <!-- Cabeçalho de informações do sistema -->
+  <body>
+    <!-- Cabeçalho de informações do sistema -->
     <header>
-        <div class="title">
-            <h1>Lista de Compras</h1>
+      <div class="title">
+        <h1>Biblioteca</h1>
+      </div>
+      <div class="banner">
+        <img
+          src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="y"
+        />
+      </div>
+      <nav class="bg-[#353224] p-4 shadow-md">
+        <div
+          class="max-w-4xl mx-auto flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <button class="navBtn" onclick="navigate('home')">Home</button>
+          <button class="navBtn" onclick="navigate('user')">
+            Cadastrar Usuario
+          </button>
+          <button class="navBtn" onclick="navigate('book')">
+            Cadastrar Livro
+          </button>
         </div>
-        <div class="banner">
-            <img src="https://images.contentstack.io/v3/assets/blt45c082eaf9747747/bltbcca43584b660977/5de0b6aa703bd50385f981ad/Header-5.jpg?width=1200&height=630&fit=crop"
-                alt="y">
-        </div>
+      </nav>
     </header>
 
-     <!-- Opções para adicionar um novo item -->
-    <section class="newItem">
-        <input type="text" id="newInput" placeholder="Adicionar novo item:">
-        <input type="text" id="newQuantity" placeholder="Quantidade:">
-        <input type="text" id="newPrice" placeholder="Valor:">
-        <button onclick="newItem()" class="addBtn">Adicionar</button>
-    </section>
-
-    <!-- Tabela com items existentes -->
-    <section class="items">
-        <table id="myTable">
+    <div id="home" class="page flex flex-col gap-2 p-2">
+      <div>
+        <p class="text-[20px] text-center">Usuários</p>
+        <section class="items">
+          <table id="userList">
             <tr>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Valor</th>
-                <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15px" height="15px"></th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Data de Nascimento</th>
             </tr>
-        </table>
-    </section>
+          </table>
+        </section>
+      </div>
+
+      <div>
+        <p class="text-[20px] text-center">Livros</p>
+        <section class="items">
+          <table id="bookList">
+            <tr>
+              <th>Autor</th>
+              <th>Titulo</th>
+              <th>Genero</th>
+              <th>Disponivel</th>
+              <th>Lançamento</th>
+            </tr>
+          </table>
+        </section>
+      </div>
+
+      <!-- <div>
+        <label for="bookOpt">Livro</label>
+        <select id="bookOpt">
+          <option value="" disabled selected hidden>Carregando...</option>
+        </select>
+      </div> -->
+    </div>
+
+    <div id="user" class="page" style="display: none">
+      <div class="flex w-full">
+        <input id="newInput" placeholder="Nome do produto" />
+        <input id="newQuantity" placeholder="Quantidade" />
+        <input id="newPrice" placeholder="Valor" />
+        <button onclick="newItem()">Adicionar usuário</button>
+      </div>
+    </div>
+
+    <div id="book" class="page" style="display: none">
+      <div class="flex w-full">
+        <input id="newInput" placeholder="Nome do produto" />
+        <input id="newQuantity" placeholder="Quantidade" />
+        <input id="newPrice" placeholder="Valor" />
+        <button onclick="newItem()">Adicionar livro</button>
+      </div>
+    </div>
 
     <script src="scripts.js"></script>
-</body>
-
+  </body>
 </html>
-
-
