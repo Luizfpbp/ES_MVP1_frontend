@@ -28,11 +28,13 @@
         <div
           class="max-w-4xl mx-auto flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button class="navBtn" onclick="navigate('home')">Home</button>
-          <button class="navBtn" onclick="navigate('user')">
+          <button type="button" class="navBtn" onclick="navigate('home')">
+            Home
+          </button>
+          <button type="button" class="navBtn" onclick="navigate('user')">
             Cadastrar Usuario
           </button>
-          <button class="navBtn" onclick="navigate('book')">
+          <button type="button" class="navBtn" onclick="navigate('book')">
             Cadastrar Livro
           </button>
         </div>
@@ -68,28 +70,49 @@
         </section>
       </div>
 
-      <!-- <div>
-        <label for="bookOpt">Livro</label>
-        <select id="bookOpt">
-          <option value="" disabled selected hidden>Carregando...</option>
-        </select>
-      </div> -->
+      <div>
+        <p class="text-[20px] text-center">Emprestimos</p>
+        <div class="flex justify-center gap-8 m-2">
+          <div class="flex flex-col">
+            <label for="bookOpt">Livro</label>
+            <select id="bookOpt">
+              <option value="" disabled selected hidden>Carregando...</option>
+            </select>
+          </div>
+          <div class="flex flex-col">
+            <label for="userOpt">Usuário</label>
+            <select id="userOpt">
+              <option value="" disabled selected hidden>Carregando...</option>
+            </select>
+          </div>
+          <button class="addBtn text-[12px]" onclick="newLendProcess()">
+            Adicionar emprestimo
+          </button>
+        </div>
+        <section class="items">
+          <table id="lendList">
+            <tr>
+              <th>Entregue</th>
+              <th>Livro</th>
+              <th>Usuário</th>
+              <th>Data do emprestimo</th>
+              <th>Data da entrega</th>
+            </tr>
+          </table>
+        </section>
+      </div>
     </div>
 
     <div id="user" class="page" style="display: none">
       <div class="flex w-full">
-        <input id="newInput" placeholder="Nome do produto" />
-        <input id="newQuantity" placeholder="Quantidade" />
-        <input id="newPrice" placeholder="Valor" />
+        <input id="newUserName" placeholder="Nome do produto" />
         <button onclick="newItem()">Adicionar usuário</button>
       </div>
     </div>
 
     <div id="book" class="page" style="display: none">
       <div class="flex w-full">
-        <input id="newInput" placeholder="Nome do produto" />
-        <input id="newQuantity" placeholder="Quantidade" />
-        <input id="newPrice" placeholder="Valor" />
+        <input id="newBookName" placeholder="Nome do produto" />
         <button onclick="newItem()">Adicionar livro</button>
       </div>
     </div>
