@@ -102,8 +102,21 @@ header {
 }
 
 .addBtn:hover {
-  background-color: #2ab53a;
-  color: white;
+  background-color: white;
+  color: #353224;
+}
+
+.custom-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+  border-color: #353224;
 }
 
 .items {

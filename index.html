@@ -16,7 +16,7 @@
     <!-- Cabeçalho de informações do sistema -->
     <header>
       <div class="title">
-        <h1>Biblioteca</h1>
+        <h1 class="text-[30px]">Biblioteca</h1>
       </div>
       <div class="banner">
         <img
@@ -41,8 +41,12 @@
       </nav>
     </header>
 
-    <div id="home" class="page flex flex-col gap-2 p-2">
-      <div>
+    <div
+      id="home"
+      class="page flex flex-col gap-4 m-2 p-2"
+      style="display: block"
+    >
+      <div class="mb-6">
         <p class="text-[20px] text-center">Usuários</p>
         <section class="items">
           <table id="userList">
@@ -55,7 +59,7 @@
         </section>
       </div>
 
-      <div>
+      <div class="mb-6">
         <p class="text-[20px] text-center">Livros</p>
         <section class="items">
           <table id="bookList">
@@ -72,20 +76,20 @@
 
       <div>
         <p class="text-[20px] text-center">Emprestimos</p>
-        <div class="flex justify-center gap-8 m-2">
-          <div class="flex flex-col">
-            <label for="bookOpt">Livro</label>
-            <select id="bookOpt">
-              <option value="" disabled selected hidden>Carregando...</option>
-            </select>
-          </div>
+        <div class="flex justify-center gap-6 m-2">
           <div class="flex flex-col">
             <label for="userOpt">Usuário</label>
-            <select id="userOpt">
+            <select id="userOpt" class="custom-input">
               <option value="" disabled selected hidden>Carregando...</option>
             </select>
           </div>
-          <button class="addBtn text-[12px]" onclick="newLendProcess()">
+          <div class="flex flex-col">
+            <label for="bookOpt">Livro</label>
+            <select id="bookOpt" class="custom-input">
+              <option value="" disabled selected hidden>Carregando...</option>
+            </select>
+          </div>
+          <button class="addBtn text-[16px]" onclick="newLendProcess()">
             Adicionar emprestimo
           </button>
         </div>
@@ -103,17 +107,88 @@
       </div>
     </div>
 
-    <div id="user" class="page" style="display: none">
-      <div class="flex w-full">
-        <input id="newUserName" placeholder="Nome do produto" />
-        <button onclick="newItem()">Adicionar usuário</button>
+    <div
+      id="user"
+      class="page flex justify-center items-center gap-2 p-2"
+      style="display: none"
+    >
+      <p class="text-[24px]">Cadastrar um usuário</p>
+      <div
+        class="flex flex-col w-full max-w-5xl gap-4 p-6 shadow-md rounded-lg"
+      >
+        <div class="flex flex-col">
+          <label for="newUserName">Nome do usuário</label>
+          <input
+            id="newUserName"
+            type="text"
+            placeholder="Digite o nome"
+            class="custom-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="newUserEmail">Email do usuário</label>
+          <input
+            type="email"
+            id="newUserEmail"
+            placeholder="Digite o email"
+            class="custom-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="newUserBirthday">Data de nascimento</label>
+          <input type="date" id="newUserBirthday" class="custom-input" />
+        </div>
+
+        <button type="button" onclick="createUser()" class="addBtn">
+          Adicionar usuário
+        </button>
       </div>
     </div>
 
-    <div id="book" class="page" style="display: none">
-      <div class="flex w-full">
-        <input id="newBookName" placeholder="Nome do produto" />
-        <button onclick="newItem()">Adicionar livro</button>
+    <div id="book" class="page flex flex-col gap-2 p-2" style="display: none">
+      <p class="text-[24px]">Cadastrar um livro</p>
+      <form
+        class="flex flex-col w-full max-w-5xl gap-4 p-6 shadow-md rounded-lg"
+      >
+        <div class="flex flex-col">
+          <label for="newBookTitle">Título do Livro</label>
+          <input
+            id="newBookTitle"
+            type="text"
+            placeholder="Digite o título do livro"
+            class="custom-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="newBookAuthor">Nome do Autor</label>
+          <input
+            id="newBookAuthor"
+            type="text"
+            placeholder="Digite o nome do autor"
+            class="custom-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="newBookGenre">Gênero do livro</label>
+          <select id="newBookGenre" class="custom-input">
+            <option value="" disabled selected hidden>
+              Selecione um Gênero
+            </option>
+          </select>
+        </div>
+
+        <div class="flex flex-col">
+          <label for="newBookRelease">Data de lançamento</label>
+          <input type="date" id="newBookRelease" class="custom-input" />
+        </div>
+
+        <button type="button" onclick="createBook()" class="addBtn">
+          Adicionar livro
+        </button>
       </div>
     </div>
 

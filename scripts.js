@@ -1,3 +1,37 @@
+const BookGenre = {
+  ROMANCE: "Romance",
+  FICCAO_CIENTIFICA: "Ficção Científica",
+  FANTASIA: "Fantasia",
+  BIOGRAFIA: "Biografia",
+  HISTORIA: "História",
+  MISTERIO: "Mistério",
+  TERROR: "Terror",
+  AVENTURA: "Aventura",
+  DRAMA: "Drama",
+  POESIA: "Poesia",
+  EDUCACAO: "Educação",
+  INFANTIL: "Infantil",
+  AUTOAJUDA: "Autoajuda",
+  RELIGIAO: "Religião",
+  COMEDIA: "Comédia",
+};
+
+// Form
+window.addEventListener("DOMContentLoaded", () => {
+  const select = document.getElementById("newBookGenre");
+
+  for (const key in BookGenre) {
+    const option = document.createElement("option");
+    option.value = BookGenre[key];
+    option.textContent = BookGenre[key];
+    select.appendChild(option);
+  }
+});
+
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("newBookRelease").max = today;
+document.getElementById("newUserBirthday").max = today;
+
 window.addEventListener("DOMContentLoaded", () => {
   // Table fetchs
   getUsersList();
@@ -16,25 +50,62 @@ function navigate(page) {
 }
 
 // Helper
-function formatDate(date) {
-  return new Date(date).toLocaleDateString();
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+  return `${day}/${month}/${year}`;
 }
 
-function formatPreciseDate(date) {
-  return new Date(date).toLocaleString();
+function formatPreciseDate(dateStr) {
+  const date = new Date(dateStr);
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+function convertInputDate(date) {
+  const [ano, mes, dia] = date.split("-");
+  return `${dia}/${mes}/${ano}`;
+}
+
+function emailValido(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
 }
 
 // Services
+db_url = "http://127.0.0.1:5000/";
+
 const UserService = {
   getUsersList: async () => {
-    const response = await fetch("http://127.0.0.1:5000/usuarios");
+    const response = await fetch(db_url + "usuarios");
+    return await response.json();
+  },
+  createUser: async (userName, userEmail, userBirthday) => {
+    const form = new FormData();
+    form.append("nome", userName);
+    form.append("email", userEmail);
+    form.append("data_nascimento", userBirthday);
+
+    const response = await fetch(db_url + "usuario", {
+      method: "post",
+      body: form,
+    });
+
     return await response.json();
   },
 };
 
 const BookService = {
   getBooksList: async (disponivel) => {
-    url = "http://127.0.0.1:5000/livros";
+    url = db_url + "livros";
     if (disponivel) {
       url = url + `?disponivel=${disponivel}`;
     }
@@ -42,11 +113,25 @@ const BookService = {
     const response = await fetch(url);
     return await response.json();
   },
+  createBook: async (bookTitle, bookAuthor, bookGenre, bookRelese) => {
+    const form = new FormData();
+    form.append("autor", bookAuthor);
+    form.append("genero", bookGenre);
+    form.append("lancamento", bookRelese);
+    form.append("titulo", bookTitle);
+
+    const response = await fetch(db_url + "livro", {
+      method: "post",
+      body: form,
+    });
+
+    return response.json();
+  },
 };
 
 const lendService = {
   getLendsList: async () => {
-    const response = await fetch("http://127.0.0.1:5000/emprestimos");
+    const response = await fetch(db_url + "emprestimos");
     return await response.json();
   },
   createLend: async (userValue, bookValue) => {
@@ -54,7 +139,7 @@ const lendService = {
     form.append("usuario_id", userValue);
     form.append("livro_id", bookValue);
 
-    const response = await fetch("http://127.0.0.1:5000/emprestimo", {
+    const response = await fetch(db_url + "emprestimo", {
       method: "post",
       body: form,
     });
@@ -64,7 +149,7 @@ const lendService = {
     const form = new FormData();
     form.append("emprestimo_id", emprestimo_id);
 
-    const response = await fetch("http://127.0.0.1:5000/emprestimo/devolver", {
+    const response = await fetch(db_url + "emprestimo/devolver", {
       method: "put",
       body: form,
     });
@@ -114,6 +199,40 @@ async function getUserOptions() {
   }
 }
 
+async function createUser() {
+  try {
+    const name = document.getElementById("newUserName");
+    const email = document.getElementById("newUserEmail");
+    const birth = document.getElementById("newUserBirthday");
+
+    if (name.value == "" || email.value == "" || birth.value == "") {
+      alert("Preencha todos os campos!");
+    } else if (!emailValido(email.value)) {
+      alert("Digite um email válido");
+    } else {
+      const data = await UserService.createUser(
+        name.value,
+        email.value,
+        convertInputDate(birth.value)
+      );
+
+      if (data?.message) {
+        alert(data.message);
+      } else {
+        insertUsersCard(data);
+
+        navigate("home");
+        name.value = "";
+        email.value = "";
+        birth.value = "";
+      }
+    }
+  } catch (error) {
+    console.log("Erro ao criar usuário: ", error);
+    alert("Erro ao criar usuário!");
+  }
+}
+
 // Book scripts
 async function getBooksList() {
   try {
@@ -154,6 +273,42 @@ async function getBookOptions() {
     console.error("Erro ao buscar livros:", error);
     bookSelect.innerHTML =
       '<option value="" disabled selected>Erro ao carregar opções</option>';
+  }
+}
+
+async function createBook() {
+  try {
+    const title = document.getElementById("newBookTitle");
+    const author = document.getElementById("newBookAuthor");
+    const genre = document.getElementById("newBookGenre");
+    const relese = document.getElementById("newBookRelease");
+
+    if (
+      title.value == "" ||
+      author.value == "" ||
+      genre.value == "" ||
+      relese.value == ""
+    ) {
+      alert("Preencha todos os campos!");
+    } else {
+      const data = await BookService.createBook(
+        title.value,
+        author.value,
+        genre.value,
+        convertInputDate(relese.value)
+      );
+
+      insertBooksCard(data);
+
+      navigate("home");
+      title.value = "";
+      author.value = "";
+      genre.value = "";
+      relese.value = "";
+    }
+  } catch (error) {
+    console.log("Erro ao criar o livro: ", error);
+    alert("Erro ao criar o livro!");
   }
 }
 
