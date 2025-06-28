@@ -220,6 +220,7 @@ async function createUser() {
         alert(data.message);
       } else {
         insertUsersCard(data);
+        await getUserOptions();
 
         navigate("home");
         name.value = "";
@@ -299,6 +300,7 @@ async function createBook() {
       );
 
       insertBooksCard(data);
+      await getBookOptions();
 
       navigate("home");
       title.value = "";
